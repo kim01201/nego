@@ -1,61 +1,375 @@
-@charset "UTF-8";
-body {
-    font-family: Arial, sans-serif;
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff'); /* 폰트 소스 */
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Pretendard-Regular';
+    font-weight: 400;
+    font-style: normal;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-header {
-    background-color: #0073e6;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+a {
+    text-decoration: none;
 }
 
-.search-bar input {
-    padding: 5px;
+/* 전체 body의 폰트 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative; /* dropdown-content의 위치를 조정하기 위해 */
+    z-index: 1; /* 필요에 따라 조정 */
+}
+
+header, main {
+    width: 100%;
+}
+
+/* 상단 첫 번째 줄의 스타일 설정 */
+.top-1, .top-2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+/* 로고 스타일 설정 */
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #007bff;
+}
+.logo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 상단 두 번째 줄의 스타일 설정 */
+.top-2 {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+}
+.top-2 a {
+    color: white;
+    text-decoration: none;
+}
+
+/* 상단 두 번째 줄의 각 div 스타일 설정 */
+.top-2 > div {
+    margin: 5px 10px;
+}
+
+/* 카테고리 버튼 스타일 설정 */
+.category-btn {
+    padding: 8px 16px;
+    background-color: #006bbf;
+    border: 1px solid #005bbf;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.category-btn:hover {
+    background-color: #005bbf;
+}
+
+/* 카테고리 스타일 설정 */
+.category {
+    position: absolute;
+}
+
+/* 카테고리 목록 스타일 설정 */
+#category-list {
+    display: none;
+    background-color: white;
+    width: 240px;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+#category-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#category-list li {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#category-list li a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+#category-list li a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+/* 서브 카테고리 스타일 설정 */
+.subCategory {
+    display: none;
+    background-color: white;
+    width: 720px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 240px;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.subCategoryItem {
+    width: 240px;
+    height: 300px;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+    float: left;
     margin-right: 10px;
 }
 
-.search-bar button, .user-options button {
-    padding: 5px 10px;
-    border: none;
+.subCategoryItem h3 {
+    padding: 10px;
+    margin: 0;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    font-weight: normal;
+    border-radius: 4px 4px 0 0;
+}
+
+.subCategoryItem h3 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.subCategoryItem h3 a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+.subCategoryItem ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.subCategoryItem ul li a {
+    display: block;
+    padding: 8px 10px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 4px;
+}
+
+.subCategoryItem ul li a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+.mainCategory.active {
+    background-color: #e0e0e0;
+}
+
+/* 검색바 스타일 설정 */
+.search-container {
+    flex-grow: 1;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+#search-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    box-sizing: border-box;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: white;
-    color: #0073e6;
+}
+
+/* 메뉴 아이콘 스타일 설정 */
+.menu-icons {
+    display: flex;
+    align-items: center;
+}
+
+.menu-icons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.menu-icons li {
+    margin-right: 20px;
+    position: relative;
+}
+
+.menu-icons a,
+.menu-icons .dropbtn {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
     cursor: pointer;
 }
 
-.main-banner img {
+.menu-icons img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.menu-icons span {
+    color: black;
+}
+
+.menu-icons span:hover,
+.menu-icons a:hover,
+.menu-icons .dropbtn:hover {
+    color: #ffd700;
+}
+
+/* 카드 스타일 */
+.card {
+    width: 15rem;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 2px 0 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card img {
     width: 100%;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
-.categories, .product-list {
-    padding: 20px;
+.card:hover img {
+    transform: scale(1.05);
 }
 
-.category-list, .products {
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 0.875rem;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.card a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.card a:hover {
+    color: #0056b3;
+}
+
+/* 북마크 스타일 */
+.card-bookmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background: url('/images/bookmark_off.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.card-bookmark.active {
+    background-image: url('/images/bookmark_on.png');
+}
+
+#productList {
     display: flex;
-    gap: 20px;
 }
 
-.category-item, .product-item {
-    border: 1px solid #ddd;
-    padding: 10px;
+/* 푸터 스타일 설정 */
+.footer {
     text-align: center;
-    flex: 1;
+    padding: 20px 0;
+    background-color: #f9f9f9;
 }
 
-.product-item img {
-    width: 100%;
-    height: auto;
+.footer-line {
+    width: 95%;
+    border: 1px solid #333;
+    margin: 0 auto 20px;
 }
 
-footer {
-    background-color: #f1f1f1;
-    padding: 10px 20px;
-    text-align: center;
+.footer-content h4 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 0.9em;
 }
