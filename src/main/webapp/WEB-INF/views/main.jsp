@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <link rel="stylesheet" href="main.css">
@@ -106,27 +107,38 @@ function searchOnEnter(event) {
         <div id="category-list" style="display:none;">
             <!-- 카테고리 목록 -->
             <ul onmouseout="hideAllSubCategories()">
-                <li id="main-1" class="mainCategory" onclick="handleClick('1')" onmouseover="showSubCategory('1')">
-                    <a href="#">의류</a>
+            <!--카테고리의 아이디를 받아야 해당 카테고리의 자식 카테고리를 나타낼수 있다  -->
+                 <c:forEach var="dto" items="${mainList}">
+                <li id="main-${dto.id}" class="mainCategory" onclick="handleClick('1')" onmouseover="showSubCategory('${dto.id}')">
+                    <a href="#">${dto.name}</a>
                 </li>
+                <!-- 
                 <li id="main-2" class="mainCategory" onclick="handleClick('2')" onmouseover="showSubCategory('2')">
                     <a href="#">전자기기</a>
                 </li>
                 <li id="main-3" class="mainCategory" onclick="handleClick('3')" onmouseover="showSubCategory('3')">
                     <a href="#">도서</a>
-                </li>
+                </li> -->
+                </c:forEach>
             </ul>
         </div>
 
-        <div id="sub-1" class="subCategory" onmouseover="showSubCategory('1')" onmouseout="hideSubCategory('1')" style="display:none;">
+    <c:forEach var="dto" items="${mainList}">
+        <div id="sub-1" class="subCategory" onmouseover="showSubCategory('${dto.id}')" onmouseout="hideSubCategory('${dto.id}')" style="display:none;">
             <div class="subCategoryItem">
-                <h3><a href="#" onclick="handleClick('11')">상의</a></h3>
+                 <c:forEach var="subCategory" items="${dto.subList}">
+               <div class="subCategoryItem">
+                <h3><a href="#" onclick="handleClick('11')">${subCategory.name}</a></h3>
                 <ul>
-                    <li><a href="#" onclick="handleClick('111')">티셔츠</a></li>
-                    <li><a href="#" onclick="handleClick('112')">셔츠</a></li>
+                <c:forEach var="itemCategory" items="${subCategory.itemList}">
+                    <li><a href="#" onclick="handleClick('111')">${itemCategory.name}</a></li>
+                    </c:forEach>
                 </ul>
             </div>
+    		 </c:forEach>
         </div>
+       </div>
+           </c:forEach>
         <!-- 다른 서브 카테고리도 비슷하게 추가 -->
     </div>
 
