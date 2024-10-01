@@ -1,0 +1,141 @@
+chatbody {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#chatPage {
+    width: 400px;  /* 가로 크기 증가 */
+    height: 600px; /* 세로 크기 증가 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#warning {
+    background-color: #ebebeb; /* Even lighter gray */
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    color: #333;
+    height: 150px; /* 위 메시지 칸 높이 조절 */
+}
+
+#warning p {
+    margin: 10px 0;
+    font-size: 1.0em; /* 폰트 크기 키움 */
+}
+
+#warning chatbutton {
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#warning chatbutton:hover {
+    background-color: #45a049;
+}
+
+#messageArea {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+#messageForm {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f1f1f1;
+}
+
+#message {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    background-color: #FFEBCD; /* 배경색을 살색으로 변경 */
+}
+
+.sendbutton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;  
+    box-sizing: border-box;
+}
+
+.sendbutton:hover {
+    background-color: #45a049;
+}
+
+.chat-message {
+   
+    margin-bottom: 15px;
+   
+    padding: 10px;
+ 
+    background-color: #fff;
+
+    border: 1px solid #ddd;
+ 
+    border-radius: 10px; /* 모서리 라운드 처리 */
+    display: inline-block; /* 인라인 블록 요소로 설정 */
+
+    max-width: 70%; /* 최대 너비 설정 */
+
+    word-wrap: break-word; /* 긴 단어 줄 바꿈 처리 */
+
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+
+}
+
+
+.my-message {
+  
+    background-color: #5581ff;
+ 
+             color: #fff;
+
+             align-self: flex-end;
+ 
+             margin-left: auto; /* 오른쪽 정렬을 위해 왼쪽 여백 자동 */
+    margin-right: 10px; /* '보내기' 버튼과의 약간의 간격 추가 */
+
+             text-align: right; /* 텍스트 오른쪽 정렬 */
+ 
+             float: right; /* 오른쪽으로 플로팅 */
+
+            }
+
+.other-message {
+    
+    background-color: #ffffff;
+ 
+    color: #000;
+    align-self: flex-start;
+
+    margin-right: auto;                                                                                                                                                                                                                                          
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+

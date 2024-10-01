@@ -1,0 +1,302 @@
+
+a{
+	text-decoration:none;
+	color:black;
+}
+
+/* Layout */
+.container1 {
+    width: 1200px; /* 컨테이너 너비 */
+    margin: 0 auto; /* 가운데 정렬 */
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Relative position for absolute child elements */
+}
+
+.sidebar, .main-content {
+    padding: 20px;
+}
+
+.sidebar {
+    width: 300px; /* 사이드바 너비 */
+    background-color: #f5f5f5;
+}
+
+.main-content {
+    width: 900px;
+}
+
+.header, .footer {
+    background-color: #f4f4f4;
+    padding: 40px;
+    margin: 20px 0;
+}
+
+.content {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+/* Information Box */
+.info-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-box div {
+    width: 32%;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.section ul li {
+    margin-bottom: 5px;
+}
+
+.sort {
+            text-align: right; /* 전체 div를 오른쪽으로 정렬 */
+        }
+.sort-result {
+display: flex;
+justify-content: flex-end;
+cursor:pointer
+}
+.sort-result div {
+margin-left: 10px; 
+}
+        
+.line {
+	border-top: 2px solid black; /* 선의 두께와 색상 설정 */
+	margin: 20px 0; /* 위아래 여백 설정 */
+}
+.card {
+    width: 15rem;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 2px 0 10px;
+}
+
+.card-img-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 2%;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-location {
+    font-size: 0.875rem;
+    color: grey;
+}
+
+.card-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.href-text {
+    text-decoration: none;
+    color: black;
+}
+
+.sold-out {
+    position: relative;
+}
+
+.sold-out-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.sold-out img {
+    filter: brightness(50%);
+}
+    
+.section li a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+  
+  
+  .info-box1 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.info-box1 div {
+    width: 150px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.container2 {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex; /* inline-flex 대신 flex 사용 */
+    flex-direction: row; /* 수평 정렬 */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    justify-content: space-around;
+}
+
+.container3 {
+    width: 1200px; /* 컨테이너 너비 */
+    margin: 0 auto; /* 가운데 정렬 */
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Relative position for absolute child elements */
+    padding: 20px; /* 내부 여백 추가 */
+}
+
+
+ #progress {
+    appearance: none;
+     width: 500px; /* 너비를 100%로 설정 */
+     max-width: 500px; /* 최대 너비 설정, 필요에 따라 변경 가능 */
+     height: 20px; /* 높이 설정 */
+}
+#progress::-webkit-progress-bar {
+    background:#f3f3f3;
+    border-radius:10px;
+    box-shadow: inset 3px 3px 10px #ccc;
+}
+#progress::-webkit-progress-value {
+    border-radius:10px;
+    background: #1D976C;
+    background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);
+    background: linear-gradient(60deg, #13E2DA, #543ab7);
+
+}
+
+nav {
+    position: relative;
+    display: flex; /* 자식 요소들을 가로로 정렬 */
+    justify-content: space-around;
+    width: 800px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+nav a {
+	display: inline-block;
+  
+            color: #333;
+            text-decoration: none;
+            text-align: center;
+            padding: .75em 0;
+            box-sizing: border-box;
+            width: 195px;
+            transition: color 0.3s ease-in-out;
+}
+
+nav a:hover, nav a.is-current {
+    color: #348EC9;
+}
+
+.nav-underline {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    background: #348EC9;
+    width: 25%; /* 각 탭 너비와 맞추기 위해 25%로 설정 */
+    transition: left 0.3s ease-in-out;
+}
+
+nav a:nth-child(1).is-current ~ .nav-underline {
+    left: 0;
+}
+nav a:nth-child(2).is-current ~ .nav-underline {
+    left: 25%;
+}
+nav a:nth-child(3).is-current ~ .nav-underline {
+    left: 50%;
+}
+nav a:nth-child(4).is-current ~ .nav-underline {
+    left: 75%;
+}
+
+nav a:nth-child(1):hover ~ .nav-underline {
+    left: 0;
+}
+nav a:nth-child(2):hover ~ .nav-underline {
+    left: 25%;
+}
+nav a:nth-child(3):hover ~ .nav-underline {
+    left: 50%;
+}
+nav a:nth-child(4):hover ~ .nav-underline {
+    left: 75%;
+}
+
+.d-flex {
+            display: flex;
+            flex-wrap: wrap; /* 필요 시 요소들을 여러 줄에 걸쳐 배치 */
+            justify-content: space-around; /* 요소들을 가로 방향으로 공간을 균등하게 분배하여 정렬 */
+            list-style: none; /* ul 요소의 기본 목록 마커 제거 */
+            padding: 0;
+        }
+
+
+  

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace="com.itbank.mavenNego.dto.salesCompletedMapper">
+ 	<!-- 판매완료 버튼 누르기 -->
+ 	<insert id="saleComplete" parameterType="String">
+ 		INSERT INTO sales_completed (pnum, seller_id, pname, price, pimage, sale_completion_time)
+ 		SELECT
+ 			s.pnum,
+ 			s.seller_id,
+ 			s.pname,
+ 			s.price,
+ 			s.pimage,
+ 			sysdate
+ 		FROM
+ 			storage S
+ 		WHERE s.pnum = #{pnum} AND s.seller_id = #{seller_id, jdbcType=VARCHAR}
+ 	</insert>
+ 	
+ 	<!-- 상품명으로 찾기 -->
+ 	<select id="searchCompleted" parameterType="String" resultType="salesCompletedDTO">
+ 		SELECT * FROM sales_completed WHERE pname LIKE '%' || #{search} || '%' ORDER BY sale_completion_time DESC
+ 	</select>
+ 	
+ 	<!-- 판매자의 판매완료 물품 리스트 -->
+ 	<select id="sellerCompleted" parameterType="String" resultType="salesCompletedDTO">
+ 		SELECT * FROM sales_completed where seller_id = #{seller_id, jdbcType=VARCHAR}
+ 	</select>
+ 	
+ 	<delete id="deleteComplete" parameterType="int">
+ 		delete from sales_completed where pnum = #{pnum}
+ 	</delete>
+ 	
+ 	<update id="clearSellList" parameterType="String">
+	    DELETE FROM sales_completed WHERE seller_id = #{seller_id, jdbcType=VARCHAR}
+	</update>
+	
+	<!--판매 테이블값 가져오기  -->
+	<select id = "getSellCompleted" parameterType = "int" resultType ="salesCompletedDTO">
+	select * from sales_completed where pnum =#{pnum, jdbcType=VARCHAR}
+	</select>
+	
+	<!--안전거래 횟수 -->
+	<select id ="sellerCount" parameterType = "String"  resultType ="int">
+		select count(*) from sales_completed where seller_id = #{seller_id}
+	</select>
+	
+	<!-- 회원 삭제시 정보 삭제   -->
+	<delete id="deleteMember_seller" parameterType="String"> 
+		delete from sales_completed where seller_id = #{id} 
+	</delete>
+	
+ </mapper>
+ 
+ 
+ 
+ 

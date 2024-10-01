@@ -1,0 +1,114 @@
+@charset "UTF-8";
+.form-group section[name="productCategory"] {
+    display: flex;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.category-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+.category-container div {
+	vertical-align: top;
+    display: inline-block;
+}
+
+/* 각 카테고리 레벨 스타일 */
+#category-level-1,
+#category-level-2,
+#category-level-3 {
+    flex: 1;
+    margin-right: 10px;
+    width: 240px; /* 최대 너비 지정 */
+    text-align:center;
+}
+
+/* 각 카테고리 목록 스타일 */
+#category-level-1 ul,
+#category-level-2 ul,
+#category-level-3 ul {
+    background-color: white;
+    border-top: 1px solid #ddd;
+    list-style-type: none;
+}
+
+/* 각 카테고리 아이템 스타일 */
+#category-level-1 li,
+#category-level-2 li,
+#category-level-3 li {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 마우스 오버 효과 */
+#category-level-1 li:hover,
+#category-level-2 li:hover,
+#category-level-3 li:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.category-form table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.category-form table th,
+.category-form table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.category-form table th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+
+.category-form table td {
+    background-color: #ffffff;
+}
+
+.category-form input[type="text"],
+.category-form input[type="submit"],
+.category-form input[type="reset"] {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.category-form input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.category-form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.category-form input[type="reset"] {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.category-form input[type="reset"]:hover {
+    background-color: #5a6268;
+}

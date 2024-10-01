@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace ="com.itbank.mavenNego.dto.negoMapper">
+ 	<select id ="mainListAll" resultType = "cateDTO">
+ 		select * from cate
+ 	</select>
+ 
+ 	<select id ="mainList" resultType = "cateDTO">
+ 		select * from cate where category_level = 1 ORDER BY id asc
+ 	</select>
+ 	<select id ="subList" resultType = "cateDTO">
+ 		select * from cate where parent_id = #{parentId} ORDER BY id asc
+ 	</select>
+ 	<select id ="itemList" resultType = "cateDTO">	
+        select * from cate where parent_id = #{parentId} ORDER BY id asc
+ 	</select>
+ 	
+ 	<select id="cateById" parameterType="int" resultType="cateDTO">
+ 		select * from cate where id = #{id}
+ 	</select>
+ 	
+ 	<select id="parentCategoryName" parameterType="int" resultType="string">
+    	select c1.name as parent_name
+    	from cate c1
+    	join cate c2 on c1.id = c2.parent_id
+    	where c2.id = #{id}
+	</select>
+ 	
+ 	<select id="grandParentCategoryName" parameterType="int" resultType="string">
+        select c3.name as grand_parent_name
+        from cate c1
+        JOIN cate c2 ON c1.id = c2.parent_id
+        JOIN cate c3 ON c3.id = c1.parent_id
+        WHERE c2.id = #{id}
+    </select>
+ 	
+ 	<select id="categoryName" parameterType="int" resultType="java.lang.String"> 
+ 	select name from cate where id = #{categoryId} 
+ 	</select>
+ 	
+ 	<!--  새로운 최상위 카테고리 추가  -->
+	<insert id="insertCate" parameterType="cateDTO"> 
+		insert into cate (id, name, parent_id, category_level) values(cate_seq.nextval, #{name}, null, 1) 
+	</insert>
+
+	<!-- 하위 카테고리 추가   -->
+	<insert id="insertSubCate" parameterType="map"> 
+		INSERT INTO cate (id, name, parent_id, category_level) VALUES (cate_seq.nextval, #{name}, #{parentId}, #{level}+1) 
+	</insert>
+
+	<!-- 카테고리 삭제   -->
+	<delete id="deleteCate" parameterType="String"> 
+		DELETE FROM CATE WHERE ID IN ( SELECT ID FROM CATE START WITH ID = #{id} CONNECT BY PRIOR ID = PARENT_ID ) 
+	</delete>
+	
+	<update id="updateCate" parameterType="String"> 
+		update cate set name =#{name} where id =#{id} 
+	</update>
+	
+ </mapper>

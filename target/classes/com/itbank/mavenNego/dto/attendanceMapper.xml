@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itbank.mavenMapper.dto.attendanceMapper">
+    <insert id="insertAttendance" parameterType="AttendanceDTO">
+        INSERT INTO attendance (member_id, count, attendance_date)
+        VALUES (#{member_id}, #{count}, #{attendance_date})
+    </insert>
+    
+    <select id="find_attend" parameterType="String" resultType="AttendanceDTO"> 
+    	select * from attendance where member_id = #{id} 
+    </select>
+    
+    <!-- 출석 횟수 증가   -->
+	<update id="updateAttendance" parameterType="AttendanceDTO"> 
+		update attendance set count = count +1, attendance_date = #{attendance_date} where member_id = #{member_id} 
+	</update>
+	
+	<!-- 회원 삭제시 출석 삭제   -->
+	<delete id="delete_attend" parameterType="String"> 
+		delete from attendance where member_id =#{id} 
+	</delete>
+</mapper>
+

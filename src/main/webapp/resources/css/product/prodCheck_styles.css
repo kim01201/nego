@@ -1,0 +1,41 @@
+
+
+/* 컨테이너 설정 */
+.container1 {
+    width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+    margin: auto; /* 가운데 정렬 */
+}
+
+/* 제목 스타일 */
+.container1 h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.container1 img{
+	width : 250px;
+	height: 250px;
+	margin-bottom: 20px;
+}
+
+.container1 button {
+	width:100%;
+    background-color: white; 
+    border: 2px solid #80ff80;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.container1 button:hover {
+    background-color: #80ff80;
+}

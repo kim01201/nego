@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.itbank.mavenNego.dto.addressMapper">
+ 
+ <select id="addList" parameterType ="String" resultType ="addressDTO">
+ 	select * from delivery_address where member_id =#{member_id}
+ </select>
+ 
+ <insert id ="insertAdd" parameterType="addressDTO">
+ insert into delivery_address
+ values(delivery_address_seq.nextval,#{member_id},#{nickname},#{name},
+ #{phone},#{postcode},#{road_address},#{detail_address})
+ </insert>
+ 
+ <delete id="deleteAdd" parameterType ="int">
+ delete from delivery_address where id=#{id}
+ </delete>
+ 
+ <select id= "addCount" resultType="java.lang.Integer">
+ 	select count(*) from delivery_address where member_id = #{member_id}
+ </select>
+ 
+  <delete id="deleteMember_add" parameterType ="String">
+ delete from delivery_address where member_id=#{id}
+ </delete>
+ 
+ 
+ </mapper>

@@ -1,0 +1,360 @@
+.first-wrap {
+    padding: 72px 0 52px;
+  }
+  
+  .carou {
+    width: 86%;
+    height: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  button {
+    background-color: transparent;
+    background-image: none;
+    cursor: pointer;
+    text-transform: none;
+    border: none;
+  }
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+  
+  @media (min-width: 1024px) {
+    .lg\:pb-\[52px\] {
+      padding-bottom: 52px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .lg\:pt-\[72px\] {
+      padding-top: 72px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .lg\:grid {
+      display: grid;
+    }
+  }
+  .gap-x-\[72px\] {
+    -moz-column-gap: 72px;
+    column-gap: 72px;
+  }
+  .items-start {
+    align-items: flex-start;
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .swiper-pointer-events {
+    touch-action: pan-y;
+  }
+  .swiper {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+  }
+  .swiper-android .swiper-slide,
+  .swiper-wrapper {
+    transform: translateZ(0);
+  }
+  .swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    transition-property: transform;
+    box-sizing: content-box;
+  }
+  .swiper-wrapper .swiper-slider-search-price.margin8 {
+    margin-right: 8px;
+    flex-grow: 0;
+  }
+  .swiper-backface-hidden .swiper-slide {
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .swiper-wrapper .swiper-slide {
+    padding-bottom: 2px;
+    height: auto;
+  }
+  .swiper-wrapper .swiper-slider-search-price {
+    width: auto;
+    flex: 1 0 auto;
+  }
+  .swiper-slide {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition-property: transform;
+  }
+  .underline-offset-\[3px\] {
+    text-underline-offset: 3px;
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
+  .text-jnBlack,
+  .text-jnblack {
+    --tw-text-opacity: 1;
+    color: rgb(20 19 19 / var(--tw-text-opacity));
+  }
+  .gap-1 {
+    gap: 0.25rem;
+  }
+  p:last-of-type {
+    margin-bottom: 0;
+  }
+  
+  .btn-wrap {
+    height: 64px;
+    padding: 16px 0 0;
+    width: 100%;
+  }
+  
+  .heart-icon {
+    width: 31px;
+  }
+.btns>button {
+  height: 48px;
+  width: 240px;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 0 0 0 25px;
+  padding: 8px 20px;
+  font-size: 14px;
+}
+  
+  .btn-safe-chat {
+    background-color: black;
+    color: white;
+  }
+  
+  .prod-info {
+    width: 620px;
+    height: 591px;
+    margin-right: 72px;
+  }
+  .prod-description {
+    margin: 0 0 20px;
+    padding: 20px 0;
+  }
+  .store-info {
+    width: 520px;
+    height: 591px;
+  }
+  .store-name {
+    font-size: 22px;
+  }
+  .-translate-x-4,
+  .translate-x-4 {
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+      rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+      scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .translate-x-4 {
+    --tw-translate-x: 1rem;
+  }
+  .border-white {
+    --tw-border-opacity: 1;
+    border-color: rgb(255 255 255 / var(--tw-border-opacity));
+  }
+  .border-4 {
+    border-width: 4px;
+  }
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  hr {
+    color: rgb(141, 141, 141);
+  }
+  
+  .text-\[\#0CB650\] {
+    --tw-text-opacity: 1;
+    color: rgb(12 182 80 / var(--tw-text-opacity));
+  }
+  
+  .to-\[\#019FB1\] {
+    --tw-gradient-to: #019fb1;
+  }
+  .from-\[\#0DCC5A\] {
+    --tw-gradient-from: #0dcc5a;
+    --tw-gradient-to: rgba(13, 204, 90, 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+  .bg-gradient-to-r {
+    background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  }
+  .animate-width {
+    animation: width 0.5s ease-in;
+    width: 124.74px;
+    height: 100%;
+  }
+  
+  .user-card {
+    border-radius: 8px; /* 선택 사항: 카드에 둥근 모서리 추가 */
+    box-sizing: border-box; /* 여백이 크기에 포함되도록 설정 */
+  }
+  
+  .user-card:first-child {
+    margin-left: 0; /* 첫 번째 카드의 왼쪽 여백 제거 */
+  }
+  
+  .user-card:last-child {
+    margin-right: 0; /* 마지막 카드의 오른쪽 여백 제거 */
+  }
+  
+  .user-card > div {
+    margin-bottom: 0.5rem; /* 카드 내부 요소 사이의 간격 */
+  }
+  
+  .user-card img {
+    width: 94%;
+    height: auto; /* 이미지 비율 유지 */
+    display: block;
+    margin: 0 auto; /* 이미지를 가운데 정렬 */
+  }
+  
+  .user-card .content {
+    padding-left: 0.5rem; /* 상품명과 가격에 왼쪽 여백 추가 */
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+  }
+
+
+
+.sold-out {
+    position: relative;
+}
+
+.sold-out-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.sold-out img {
+    filter: brightness(50%);
+}
+    
+    .card-img-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 2%;
+}
+   #progress {
+    appearance: none;
+     width: 500px; /* 너비를 100%로 설정 */
+     max-width: 500px; /* 최대 너비 설정, 필요에 따라 변경 가능 */
+     height: 20px; /* 높이 설정 */
+}
+#progress::-webkit-progress-bar {
+    background:#f3f3f3;
+    border-radius:10px;
+    box-shadow: inset 3px 3px 10px #ccc;
+}
+#progress::-webkit-progress-value {
+    border-radius:10px;
+    background: #1D976C;
+    background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);
+    background: linear-gradient(60deg, #13E2DA, #543ab7);
+
+}
+  
+  
+  .third-wrap {
+
+  width: 100%;
+  overflow: hidden;
+}
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.swiper-slide {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-card {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+.product-card img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.2s ease-in-out;
+}
+.product-card:hover img {
+  transform: scale(1.05);
+}
+.product-info {
+  padding: 10px;
+}
+.product-title {
+  font-size: 1rem;
+  height: 40px;
+  overflow: hidden;
+}
+.product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swiper-button-next {
+  right: 0; /* Adjust as needed */
+}
+.swiper-button-prev {
+  left: 0; /* Adjust as needed */
+}

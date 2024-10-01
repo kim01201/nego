@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace ="com.itbank.mavenNego.dto.wishListMapper">
+	<select id ="wishList" resultType = "wishListDTO">
+	select * from wishlist
+	</select>
+	
+	<insert id="insertWish" parameterType="wishListDTO">
+		insert into wishlist(product_id, member_id, product_name, product_price, product_image)
+		values (#{product_id},#{member_id},#{product_name},#{product_price},#{product_image})
+	</insert>
+	
+	<select id ="myWish" parameterType="String" resultType="wishListDTO">
+		select * from wishlist where member_id = #{member_id}
+	</select>
+	
+	<select id="findWish" parameterType="map" resultType="wishListDTO">
+    select *from wishlist
+ 	where product_id = #{product_id}and member_id = #{member_id}
+	</select>
+	
+	<delete id="deleteWish" parameterType="map">
+    delete from wishlist
+    where product_id = #{product_id} and member_id = #{member_id}
+	</delete>
+	
+	<select id = "wishCount" resultType="java.lang.Integer">
+		select count(*) from wishlist where product_id = #{product_id}
+	</select>
+	
+	<delete id ="prod_delete"  parameterType = "int">
+		delete from wishlist where product_id = #{product_id}
+	</delete>
+	
+	<select id = "getWish" parameterType ="int" resultType ="wishListDTO">
+		select * from  wishlist where product_id =#{pnum}
+	</select>
+	
+	<update id ="updateWish" parameterType ="wishListDTO">
+	 update wishlist set product_name=#{product_name}, product_price=#{product_price}, product_image=#{product_image}
+		where product_id =#{product_id}
+	</update>
+	
+	<!-- 내 찜 목록에서 검색 -->
+	<select id="find_myWish" parameterType="Map" resultType="wishListDTO">
+	 select * from wishlist
+	where product_name like '%' || #{product_name} || '%'
+		and member_id = #{member_id}
+</select>
+
+	<!-- 상품 삭제되면 그 찜 목록에 그 상품 삭제   -->
+	<delete id="delete_member" parameterType="int"> 
+		delete from wishlist where product_id = #{pnum} 
+	</delete>
+	
+	<!--  회원 삭제시 찜 삭제  -->
+	<delete id="deleteMember_wish" parameterType="int"> 
+		delete from wishlist where member_id =#{id} 
+	</delete>
+	
+</mapper>
+
+
+

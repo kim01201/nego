@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+    .container1 {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    .header, .section, .footer {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .header h2 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+    .header h5 {
+        color: #7f8c8d;
+        margin-bottom: 30px;
+    }
+    hr {
+        border: 0;
+        border-top: 1px solid #ecf0f1;
+        margin-bottom: 20px;
+    }
+    .section h3 {
+        color: #2c3e50;
+    }
+    .section h5 {
+        color: #7f8c8d;
+        margin-bottom: 20px;
+    }
+    .updateFraud form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .updateFraud input[type="text"], .updateFraud input[type="submit"] {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+        border: 1px solid #bdc3c7;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    .updateFraud input[type="submit"] {
+        background-color: #3498db;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .updateFraud input[type="submit"]:hover {
+        background-color: #2980b9;
+    }

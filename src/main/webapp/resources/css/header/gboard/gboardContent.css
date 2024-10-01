@@ -1,0 +1,70 @@
+/* resources/css/gboard/gboardContent.css */
+
+.container1 {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #cdd9e5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #2196F3;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #cdd9e5;
+    text-align: left;
+}
+
+    th {
+    width: 15%; /* th가 테이블 너비의 15%를 차지하도록 설정 */
+    padding: 12px;
+    text-align: left;
+    background-color: #2196F3;
+    color: #fff;
+    max-width: 200px;
+}
+
+td {
+    width: 85%; /* td가 테이블 너비의 85%를 차지하도록 설정 */
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+    max-width: 600px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.btn-group {
+	margin: 0 200px;
+	align-items: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-group input[type="button"] {
+    padding: 12px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #2196F3;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.btn-group input[type="button"]:hover {
+    background-color: #0056b3;
+}

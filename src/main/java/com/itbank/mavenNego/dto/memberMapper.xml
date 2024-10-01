@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- memberMapper.xml --> 
+
+ <mapper namespace ="com.itbank.mavenNego.dto.negoMapper">
+ 	
+ <insert id="insertMember" parameterType="memberDTO">
+    insert into member (id, passwd, name, ssn1, ssn2, email, hp1, hp2, hp3, addr, trust_score)
+    values (#{id}, #{passwd,jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{ssn1, jdbcType=VARCHAR}, #{ssn2, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, #{hp1, jdbcType=VARCHAR}, #{hp2, jdbcType=VARCHAR}, #{hp3, jdbcType=VARCHAR}, #{addr, jdbcType=VARCHAR}, 500)
+</insert>
+ 	
+ 	<!--아이디와 비밀번호가 맞으면 로그인  -->
+ 	<select id="loginCheck" parameterType="map" resultType="int">
+ 		select count(*) 
+ 		from member 
+ 		where id = #{id} and passwd = #{passwd} 
+ 	</select>
+ 	
+ 	<!--  -->
+ 	 <select id="idCheck" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE id = #{id}
+    </select>
+ 	
+ 	<select id="getMember" parameterType="String" resultType="memberDTO">
+ 		select * from member where id = #{id}
+ 	</select>
+ 	
+ 	<select id="getMemberCount" parameterType="String" resultType="int">
+    select count(*) from member where id = #{id}
+    </select>
+    
+    <select id="findPasswdByEmail" parameterType="map" resultType="string"> 
+    SELECT passwd FROM member WHERE id = #{id} AND email = #{email} 
+    </select>
+    
+    <select id="findIdByNameAndEmail" resultType="string">
+    SELECT id 
+    FROM member
+    WHERE name = #{name} AND email = #{email}
+</select>
+
+<select id="findIdByEmail" parameterType="map" resultType="string"> 
+SELECT id FROM member WHERE id = #{id} AND email = #{email} 
+</select>
+
+<select id="getAllMembers" resultType="MemberDTO"> select * from member </select>
+
+<select id="findmember" parameterType="map" resultType="MemberDTO">
+SELECT * FROM member WHERE 1=1
+<if test="name != null and name != ''"> AND name = #{name, jdbcType=VARCHAR} </if>
+<if test="id != null and id != ''"> AND id = #{id, jdbcType=VARCHAR} </if>
+</select>
+
+ 	<select id="checkId" resultType="int" parameterType="String">
+ 		select count(*) from member where id=#{id} 
+ 	</select>
+ 	
+ 	<!-- 판매승인시 판매자 점수 5점 증가  -->
+	<update id="sell_score" parameterType="String"> update member set trust_score = trust_score +5 where id = #{seller_id} </update>
+
+ 	
+ 	<!-- 리뷰 작성시 점수 5점 증가   -->
+	<update id="reviews_score" parameterType="String"> 
+		update member set trust_score = trust_score +5 where id = #{receiver_id} 
+	</update>
+
+	<!-- 신고 당하면 점수 10점 하락   -->
+	<update id="fraud_score" parameterType="fraudDTO"> 
+		update member set trust_score = trust_score -10 
+		where id = #{fraudAccount} or email = #{fraudAccount} or hp1 || hp2 || hp3 = #{fraudAccount} 
+	</update>
+
+	<!--  회원 찾기  -->
+	<select id="findMember" parameterType="map" resultType="memberDTO">
+		SELECT * FROM member WHERE 1=1
+		<if test="name != null and name != ''"> AND name = #{name, jdbcType=VARCHAR} </if>
+		<if test="id != null and id != ''"> AND id = #{id, jdbcType=VARCHAR} </if>
+	</select>
+	
+	<!--  회원삭제  -->
+	<delete id="deleteMember" parameterType="String"> 
+		DELETE FROM member WHERE id = #{id} 
+	</delete>
+
+	<!-- 회원수정   -->
+	<update id="updateMember" parameterType="memberDTO"> 
+		UPDATE member SET passwd = #{passwd}, name = #{name}, ssn1 = #{ssn1}, ssn2 = #{ssn2}, email = #{email}, 
+		hp1 = #{hp1}, hp2 = #{hp2}, hp3 = #{hp3}, addr = #{addr} WHERE id = #{id} 
+	</update>
+
+	
+	<!-- 리뷰 작성시 좋은평가시 판매자 3점증가   -->
+	<update id="greviews_score" parameterType="String"> 
+		update member set trust_score = trust_score +3 where id = #{receiver_id} 
+	</update>
+	
+	<!-- 리뷰 작성시 나쁜 평가시 판매자 3점증가   -->
+	<update id="breviews_score" parameterType="String"> 
+		update member set trust_score = trust_score -3 where id = #{receiver_id} 
+	</update>
+
+	<!--  신고시 회원 찾기  -->
+	<select id="fraudMember" parameterType="map" resultType="memberDTO"> 
+		select * from member where id = #{fraudAccount} or email = #{fraudAccount} or hp1 || hp2 || hp3 = #{fraudAccount} 
+	</select>
+	
+	<!--  출석시 신뢰점수 1점추가  -->
+	<update id="attend_score" parameterType="String"> 
+		update member set trust_score = trust_score +1 where id = #{receiver_id} 
+	</update>
+	
+	<insert id="saveMember" parameterType="com.itbank.mavenNego.dto.MemberDTO"> 
+		INSERT INTO member (id, passwd, name, ssn1, ssn2, email, hp1, hp2, hp3, addr) 
+		VALUES (#{id,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+		#{ssn1,jdbcType=VARCHAR}, #{ssn2,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{hp1,jdbcType=VARCHAR}, 
+		#{hp2,jdbcType=VARCHAR}, #{hp3,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}) 
+	</insert>
+</mapper>

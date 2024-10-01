@@ -1,0 +1,114 @@
+.outline {
+    border-collapse: collapse;
+    width: 70%;
+
+}
+
+.m2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    padding: 10px 0;
+}
+
+.m3 {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.m3 label {
+    flex: 0 0 150px; /* 고정 너비 */
+    text-align: right;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.m3 input[type="text"],
+.m3 input[type="password"] {
+    flex: 1; /* 남은 공간 모두 사용 */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.m3 input[type="text"]:focus,
+.m3 input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.m3 .box-container {
+    display: flex;
+    align-items: center;
+}
+
+.m3 .box-container .box {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.m3 .box-container input[type="password"] {
+    margin-left: 10px;
+}
+
+.m3 .buttons {
+    display: flex;
+    justify-content: center;
+    margin:0 auto;
+    margin-top: 20px;
+}
+
+.m3 .buttons button,
+.m3 .buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+}
+
+.m3 .buttons button[type="submit"],
+.m3 .buttons a[type="submit"],
+.m3 .buttons button[type="button"]:not([onclick*="location.href='Login.do'"]),
+.m3 .buttons a[type="button"]:not([onclick*="location.href='Login.do'"]) {
+    background-color: #007bff;
+}
+
+.m3 .buttons button[type="submit"]:hover,
+.m3 .buttons a[type="submit"]:hover,
+.m3 .buttons button[type="button"]:not([onclick*="location.href='Login.do'"]):hover,
+.m3 .buttons a[type="button"]:not([onclick*="location.href='Login.do'"]):hover {
+    background-color: #0056b3;
+}
+
+.m3 .buttons button[onclick*="location.href='Login.do'"],
+.m3 .buttons a[onclick*="location.href='Login.do'"] {
+    background-color: #6c757d;
+}
+
+.m3 .buttons button[onclick*="location.href='Login.do'"]:hover,
+.m3 .buttons a[onclick*="location.href='Login.do'"]:hover {
+    background-color: #5a6268;
+}
+
+.m3 .check-button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.m3 .check-button:hover {
+    background-color: #0056b3;
+}

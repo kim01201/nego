@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace="com.itbank.mavenNego.dto.buyCompletedMapper">
+ 	<!-- 판메 완료 버튼 누르기 -->
+ 	<insert id="buyComplete" parameterType="String">
+ 		INSERT INTO buy_completed (pnum, buyer_id, pname, price, pimage, sale_completion_time)
+ 		SELECT
+ 			s.pnum,
+ 			s.buyer_id,
+ 			s.pname,
+ 			s.price,
+ 			s.pimage,
+ 			sysdate
+ 		FROM
+ 			storage S
+ 		WHERE s.pnum = #{pnum} AND s.buyer_id = #{buyer_id, jdbcType=VARCHAR}
+ 	</insert>
+ 	
+ 		<!-- 리스트 초기화 -->
+	<update id="clearBuyList">
+		DELETE from buy_completed WHERE buyer_id = #{buyer_id, jdbcType=VARCHAR}
+	</update>
+	
+ 	<!-- 상품명으로 찾기 -->
+ 	<select id="searchBuyCompleted" parameterType="String" resultType="buyCompletedDTO">
+ 		SELECT * FROM buy_completed WHERE pname LIKE '%' || #{search} || '%' ORDER BY sale_completion_time DESC
+ 	</select>
+ 	
+ 	<!-- 구매자의 구매완료 물품 리스트 -->
+ 	<select id="buyCompleted" parameterType="String" resultType="buyCompletedDTO">
+ 		SELECT * FROM buy_completed WHERE buyer_id = #{buyer_id, jdbcType=VARCHAR}
+ 	</select>
+ 	
+ 	<delete id="deleteBuyComplete" parameterType="int">
+ 		delete from buy_completed where pnum = #{pnum}
+ 	</delete>
+ 	
+ 	<!--구매 테이블 값 가져오기  -->
+ 	<select id ="getBuyCompleted" parameterType ="int" resultType = "buyCompletedDTO">
+ 		select * from buy_completed where pnum = #{pnum}
+ 	</select>
+ 	
+ 	<!-- 회원 삭제시 정보 삭제   -->
+	<delete id="deleteMember_buyer" parameterType="String"> 
+		delete from buy_completed where buyer_id = #{id} 
+	</delete>
+ 	
+ </mapper>

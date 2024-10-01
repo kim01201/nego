@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace="com.itbank.NeGO.dto.fraudMapper">
+ 	<!--  첫번째 신고  -->
+	<insert id="insertFraud" parameterType="fraudDTO"> 
+		INSERT INTO fraud (fraudCount, fraudTotalCost, member_id) 
+		VALUES ( 1, #{fraudTotalCost, jdbcType=INTEGER}, 
+		#{member_id, jdbcType = VARCHAR}) 
+	</insert>
+
+	
+	<select id="fraudList" resultType="fraudDTO"> 
+		select * from fraud ORDER BY fraudCount DESC 
+	</select>
+
+	<!--  누적 신고   -->
+	<update id="updateFraud" parameterType="fraudDTO"> 
+		UPDATE fraud set fraudCount = fraudCount +1 , 
+		fraudTotalCost = fraudTotalCost + #{fraudTotalCost, jdbcType=INTEGER}
+		WHERE member_id = #{member_id, jdbcType=VARCHAR} 
+	</update>
+	
+	<!--  사기 조회하기  -->
+	<select id="searchFraud" parameterType="String" resultType="fraudDTO"> 
+		SELECT * FROM fraud where member_id = #{member_id, jdbcType=VARCHAR} 
+	</select>
+	
+	<!--  회원 삭제시 신고내역 삭제  -->
+	<delete id="deleteMember_fraud" parameterType="int"> 
+		delete from fraud where member_id = #{id} 
+	</delete>
+
+ </mapper>

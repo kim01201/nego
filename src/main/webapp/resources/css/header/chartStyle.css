@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+/* style.css */
+
+h2 {
+    color: #007bff;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+}
+
+select, input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.price-display, .search-message {
+    margin-top: 20px;
+}
+
+.container1 {
+    margin-top: 20px;
+}
+
+.price-display, .search-message {
+    margin-top: 20px;
+}
+
+.canvas-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 10px;
+    }
+}
+
+/* 카테고리 섹션 스타일 */
+.form-group section[name="productCategory"] {
+	width:800px;
+    display: flex;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    items-align:center;
+}
+
+.category-container {
+    height: 250px; 
+}
+
+.category-container > div {
+    display: inline-block; /* 요소를 인라인 블록으로 표시하여 옆으로 정렬 */
+    vertical-align: top; /* 요소를 위쪽에 정렬 */
+}
+
+/* 각 카테고리 레벨 스타일 */
+#category-level-1,
+#category-level-2,
+#category-level-3 {
+    flex: 1;
+    margin-right: 10px;
+    width: 240px; /* 최대 너비 지정 */
+    text-align:center;
+}
+
+/* 각 카테고리 목록 스타일 */
+#category-level-1 ul,
+#category-level-2 ul,
+#category-level-3 ul {
+    background-color: white;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    list-style-type: none;
+}
+
+/* 각 카테고리 아이템 스타일 */
+#category-level-1 li,
+#category-level-2 li,
+#category-level-3 li {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 마우스 오버 효과 */
+#category-level-1 li:hover,
+#category-level-2 li:hover,
+#category-level-3 li:hover {
+    background-color: #007bff;
+    color: white;
+}

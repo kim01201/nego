@@ -1,0 +1,41 @@
+@charset "UTF-8";
+		.calendar{
+			text-align: center;
+		}
+        .calendar-container {
+            display: inline-block;
+            background: black; /* Outer background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .calendar-content {
+            background: white; /* Inner background */
+            color: black; /* Inner text color */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .calendar-container h2 {
+            margin-top: 0;
+        }
+        .calendar-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .calendar-container th, .calendar-container td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .calendar-container .today {
+            background-color: #8bc34a;
+            color: white;
+        }
+        .calendar-container img {
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+        .highlight {
+            color: #8bc34a; /* Green color for 에코마일 */
+        }

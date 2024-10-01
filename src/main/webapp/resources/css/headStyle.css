@@ -1,0 +1,556 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff'); /* 폰트 소스 */
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Pretendard-Regular';
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+	text-decoration:none;
+}
+/* 전체 body의 폰트 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #f4f4f4;
+}
+
+/* 컨테이너의 너비 설정 */
+.container {
+    width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    position: relative; /* dropdown-content의 위치를 조정하기 위해 */
+    z-index: 1; /* 필요에 따라 조정 */
+	
+}
+
+/* 상단 첫 번째 줄의 스타일 설정 */
+.top-1, .top-2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+/* 로고 스타일 설정 */
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #007bff;
+}
+.logo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 상단 두 번째 줄의 스타일 설정 */
+.top-2 {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+}
+.top-2 a{
+	color: white;
+	text-decoration: none;
+}
+
+/* 상단 두 번째 줄의 각 div 스타일 설정 */
+.top-2 > div {
+    margin: 5px 10px;
+}
+
+/* 카테고리 버튼 스타일 설정 */
+.category-btn {
+    padding: 8px 16px;
+    background-color: #006bbf;
+    border: 1px solid #005bbf;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.category-btn:hover {
+    background-color: #005bbf;
+}
+
+/* 카테고리 스타일 설정 */
+.category {
+    position: absolute;
+}
+
+/* 카테고리 목록 스타일 설정 */
+#category-list {
+    display: none;
+    background-color: white;
+    width: 240px;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+
+}
+
+/* 카테고리 목록의 항목 스타일 설정 */
+#category-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 카테고리 목록의 항목 링크 스타일 설정 */
+#category-list li {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#category-list li a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+
+}
+
+#category-list li a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.subCategory {
+    display: none;
+    background-color: white;
+    width: 720px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 240px;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+
+}
+
+.subCategoryItem {
+	width: 240px;
+    height: 300px;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+    float: left;
+    margin-right: 10px;
+}
+
+.subCategoryItem h3 {
+    padding: 10px;
+    margin: 0;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    font-weight: normal;
+    border-radius: 4px 4px 0 0;
+}
+
+.subCategoryItem h3 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.subCategoryItem h3 a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+.subCategoryItem ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.subCategoryItem ul li a {
+    display: block;
+    padding: 8px 10px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+     border-radius: 4px;
+}
+
+.subCategoryItem ul li a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+.mainCategory.active {
+    background-color: #e0e0e0;
+}
+
+.search-container {
+    flex-grow: 1;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+#search-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    box-sizing: border-box;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+     background-color: white;
+}
+
+.menu-icons {
+    display: flex;
+    align-items: center;
+}
+
+.menu-icons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.menu-icons li {
+    margin-right: 20px;
+    position: relative;
+}
+
+.menu-icons a,
+.menu-icons .dropbtn {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.menu-icons img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.menu-icons span:hover,
+.menu-icons a:hover,
+.menu-icons .dropbtn:hover {
+    color: #ffd700;
+}
+.menu-icons span {
+    color: black;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 120px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.dropdown-content a,
+.dropdown-content button {
+    padding: 10px;
+    display: block;
+    color: #333;
+    text-decoration: none;
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-content a:hover,
+.dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown.open .dropdown-content {
+    display: block;
+}
+
+.logout-button {
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Chat Popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 400px;
+    background-color: #fff;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    border-radius: 0 0 0 8px;
+    padding: 20px;
+}
+
+.popup-content {
+    position: relative;
+    height: 100%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup1 {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 400px;
+    background-color: #fff;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    border-radius: 0 0 0 8px;
+    padding: 20px;
+}
+.popup-content1 {
+    position: relative;
+    height: 100%;
+}
+
+.close-btn1 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.overlay1 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.notification-badge {
+        position: absolute;
+        bottom: 15px;
+          left: 60px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+       background-color: #ff0000;
+       color: #fff;
+       border-radius: 50%;
+       padding: 5px;
+       font-size: 12px;
+      display:none;
+    }
+
+/* 카드 스타일 */
+.card {
+    width: 15rem;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 2px 0 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 0.875rem;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.card a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.card a:hover {
+    color: #0056b3;
+}
+
+/* 북마크 스타일 */
+.card-bookmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background: url('/images/bookmark_off.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.card-bookmark.active {
+    background-image: url('/images/bookmark_on.png');
+}
+
+/* Container의 스타일 */
+.my-4 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+    .review-item {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .text {
+        flex: 1;
+        text-align: left;
+    }
+    .count {
+        margin-left: auto;
+        text-align: right;
+    }
+    .popup-content {
+    
+        max-height: 100vh; /* 최대 높이를 설정 */
+        overflow-y: auto; /* 수직 스크롤 활성화 */
+        padding-right: 15px; /* 오른쪽 여백 추가 */
+    }
+    
+           .popup2 {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 30%;
+            height: 100%;
+            border: 1px solid #888;
+            background-color: white;
+            z-index: 1002;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .popup2-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .popup2-content h2 {
+            margin-top: 0;
+        }
+        .chat-room-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .chat-room-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .chat-room-list li a {
+            text-decoration: none;
+            color: #000;
+        }
+        .chat-room-list li a:hover {
+            text-decoration: underline;
+        }
+
+    

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itbank.mavenNego.dto.mboardMapper">
+
+	<select id="boardList" resultType="mboardDTO">
+		select * from mboard order by
+		re_step asc
+	</select>
+	
+	<select id = "getCount" resultType="java.lang.Integer">
+		select count(*) from mboard
+	</select>
+	
+	
+	<update id="updateNewStep" parameterType="mboardDTO">
+            UPDATE mboard
+            SET re_step = re_step + 1
+	</update>
+    
+    <update id="updateReStep" parameterType="mboardDTO">
+            update mboard
+            set re_step = re_step + 1
+            where re_step > #{re_step}
+	</update>
+
+
+ 
+	<insert id="insertBoard" parameterType="mboardDTO">
+		insert into mboard
+		values(mboard_seq.nextval,
+		#{writer},#{email},#{subject}, sysdate, 0,
+		#{content},#{re_step},#{re_level})
+	</insert>
+
+
+	<select id="getBoard" parameterType="int" resultType="mboardDTO">
+		select *
+		from mboard where num = #{num}
+	</select>
+
+
+	<update id="plusReadcount" parameterType="int">
+		update mboard set
+		readcount = readcount + 1 where num = #{num}
+	</update>
+
+	<update id="updateBoard" parameterType="mboardDTO">
+		update mboard set
+		subject=#{subject}, email=#{email},
+		content=#{content} where num=#{num}
+	</update>
+
+
+	<delete id="deleteBoard" parameterType="int">
+		delete from mboard where
+		num = #{num}
+	</delete>
+
+	<select id="searchMboardList" parameterType="map" resultType="MboardDTO">
+    select * 
+    from mboard
+ 	where (subject LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR #{search, jdbcType=VARCHAR} IS NULL) 
+	</select>
+	
+	<!-- 회원 탈퇴시 작성사 아이디 바꾸기   -->
+	<update id="reMboard_id" parameterType="String"> 
+		update mboard set writer = '탈퇴한 회원' where writer=#{id} 
+	</update>
+</mapper>
+ 

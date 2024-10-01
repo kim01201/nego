@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace="com.itbank.mavenNego.dto.storageMapper">
+ 
+ 	<!-- 구매자가 구매하기 버튼을 눌렀을 때 -->
+ 	<insert id="ifClickBuy" parameterType="map">
+	    INSERT INTO storage (pnum, seller_id, pname, price, pimage, buyer_id, code)
+	    SELECT
+	    	p.pnum,
+	        p.member_id,
+	        p.pname,
+	        p.price,
+	        p.pimage,
+	        #{buyer_id, jdbcType=VARCHAR},
+	        'wantBuy'
+	    FROM
+	        prod p
+	    WHERE
+	        p.pnum = #{pnum, jdbcType=INTEGER}
+	</insert>
+	
+	<!--판매버튼 클릭시 가져올 정보  -->
+	<select id ="getStorage" parameterType ="int" resultType = "storageDTO">
+		select * from storage where pnum = #{pnum} 
+	</select>
+	
+	<!--판매버튼 클릭시 해당 스토리지 삭제 -->
+	<delete id ="deleteStorage" parameterType="int">
+		delete from storage where pnum = #{pnum}
+	</delete>
+
+ 	<!-- 구매자의 구매 대기 리스트 -->
+ 	<select id="sendBuyer" parameterType="String" resultType="storageDTO">
+ 		SELECT * FROM storage
+ 		WHERE code='wantBuy' AND buyer_id = #{buyer_id, jdbcType=VARCHAR}
+ 	</select>
+ 	
+ 	<!-- 판매자의 판매 승인 리스트 -->
+	<select id="sendSeller" parameterType="String" resultType="storageDTO">
+		SELECT * FROM storage
+		WHERE code='wantBuy' AND seller_id = #{seller_id, jdbcType=VARCHAR}
+	</select>
+ 	
+ 	<!-- 승인 거부하기 -->
+ 	<delete id="deny" parameterType="map">
+ 		DELETE FROM storage WHERE buyer_id = #{buyer_id, jdbcType=VARCHAR} AND pnum = #{pnum, jdbcType=INTEGER}
+ 	</delete>
+ 	
+
+	<!-- 판매내역으로 보낼 값 -->
+	<select id="sendSellList" parameterType="map" resultType="storageDTO">
+		SELECT * from storage
+		WHERE code = 'wantSell' AND seller_id = #{seller_id, jdbcType=VARCHAR} AND pnum = #{pnum, jdbcType=INTEGER}
+	</select>
+	
+	<!-- 판매내역으로 보낼 값 -->
+	<select id="sendBuyList" parameterType="map" resultType="storageDTO">
+		SELECT * from storage
+		WHERE code = 'wantSell' AND buyer_id = #{buyer_id, jdbcType=VARCHAR} AND pnum = #{pnum, jdbcType=INTEGER}
+	</select>
+	
+	<!--  회원의 상품번호 가져오기  -->
+	<select id="getPnum" parameterType="String" resultType="Integer"> 
+		SELECT pnum FROM storage WHERE seller_id = #{memberId, jdbcType=VARCHAR} OR buyer_id = #{memberId, jdbcType=VARCHAR} 
+	</select>
+
+   <!--  회원의 스토리지 항목 삭제  -->
+	<delete id="deleteStorageMember" parameterType="String"> 
+		DELETE FROM storage WHERE seller_id = #{id, jdbcType=VARCHAR} OR buyer_id = #{id, jdbcType=VARCHAR} 
+	</delete>
+  
+	
+ </mapper>
+ 

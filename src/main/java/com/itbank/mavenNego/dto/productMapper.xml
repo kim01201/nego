@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace="com.itbank.NeGO.dto.productMapper">
+ 
+ 	<!-- 전체 상품 -->
+ 	<select id="allProd" resultType="productDTO">
+ 		SELECT * FROM prod
+ 	</select>
+ 	
+ 	<!--  '노트북' 검색 시 '노트북'이 들어가는 상품 리스트 보여줌  -->
+	<select id="searchProd" parameterType="String" resultType="productDTO"> 
+		SELECT p.*,EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date)) AS hours_difference FROM prod p 
+		WHERE (p.pname LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR #{search, jdbcType=VARCHAR} IS NULL) 
+	</select>
+
+<select id="cateSearchProd" parameterType="map" resultType="ProductDTO">
+    SELECT p.*, 
+        CASE 
+            WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+            + EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 
+                THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+                + EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' 
+            ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+            + EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+        END AS HOURS_DIFFERENCE 
+    FROM prod p 
+    WHERE 1=1
+    <!-- 검색 조건 -->
+    <choose>
+        <when test="search != null and search != ''">
+            AND p.pname LIKE '%' || #{search, jdbcType=VARCHAR} || '%' 
+        </when>
+        <otherwise>
+            AND 1=1 <!-- search가 null이거나 비어 있을 때는 이 조건이 항상 참이므로 모든 상품을 가져옴 -->
+        </otherwise>
+    </choose>
+    <!-- 카테고리 조건 -->
+    <if test="pcategory != null and pcategory != ''">
+        <!-- 카테고리가 선택된 경우, 해당 카테고리에 속하는 상품을 검색 -->
+        AND (
+            p.pcategory1 = #{pcategory, jdbcType=VARCHAR} OR
+            (p.pcategory2 = #{pcategory, jdbcType=VARCHAR} AND p.pcategory1 != #{pcategory, jdbcType=VARCHAR}) OR
+            (p.pcategory3 = #{pcategory, jdbcType=VARCHAR} AND p.pcategory2 != #{pcategory, jdbcType=VARCHAR} AND p.pcategory1 != #{pcategory, jdbcType=VARCHAR})
+        )
+    </if>
+    <!-- 상태 조건 -->
+    <if test="status != null">
+        AND p.pstatus = #{status}
+    </if>
+    <!-- 가격 조건 -->
+    <if test="minPrice != null">
+        AND p.price &gt;= #{minPrice}
+    </if>
+    <if test="maxPrice != null">
+        AND p.price &lt;= #{maxPrice}
+    </if>
+    <!-- 정렬 조건 -->
+    <if test="sort != null">
+        ORDER BY
+        <choose>
+            <when test="sort == 'RECOMMENDED_SORT'">
+                p.preadcount DESC
+            </when>
+            <when test="sort == 'NEWEST_SORT'">
+                p.create_date DESC
+            </when>
+            <when test="sort == 'PRICE_ASC_SORT'">
+                p.price ASC
+            </when>
+            <when test="sort == 'PRICE_DESC_SORT'">
+                p.price DESC
+            </when>
+            <otherwise>
+                p.create_date DESC <!-- 기본적으로 최신 순으로 정렬 -->
+            </otherwise>
+        </choose>
+    </if>
+</select>
+
+
+<!-- 검색 결과에 따른 평균, 최소, 최대 가격 조회 -->
+<select id="searchPriceStats" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT 
+    COALESCE(AVG(CASE WHEN #{search, jdbcType=VARCHAR} IS NOT NULL OR #{search, jdbcType=VARCHAR} != '' OR (#{pcategory, jdbcType=VARCHAR} IS NULL OR #{pcategory, jdbcType=VARCHAR} = '')
+            THEN CASE WHEN pname LIKE '%' || #{search, jdbcType=VARCHAR} || '%' THEN price ELSE NULL END 
+            ELSE NULL END), 0) AS avg1Price,
+    COALESCE(MIN(CASE WHEN #{search, jdbcType=VARCHAR} IS NOT NULL OR #{search, jdbcType=VARCHAR} != '' OR (#{pcategory, jdbcType=VARCHAR} IS NULL OR #{pcategory, jdbcType=VARCHAR} = '')
+            THEN CASE WHEN pname LIKE '%' || #{search, jdbcType=VARCHAR} || '%' THEN price ELSE NULL END 
+            ELSE NULL END), 0) AS min1Price,
+    COALESCE(MAX(CASE WHEN #{search, jdbcType=VARCHAR} IS NOT NULL OR #{search, jdbcType=VARCHAR} != '' OR (#{pcategory, jdbcType=VARCHAR} IS NULL OR #{pcategory, jdbcType=VARCHAR} = '')
+            THEN CASE WHEN pname LIKE '%' || #{search, jdbcType=VARCHAR} || '%' THEN price ELSE NULL END 
+            ELSE NULL END), 0) AS max1Price,
+    COALESCE(AVG(CASE WHEN #{search, jdbcType=VARCHAR} IS NULL OR #{search, jdbcType=VARCHAR} = '' OR #{pcategory, jdbcType=VARCHAR} IS NOT NULL OR #{pcategory, jdbcType=VARCHAR} != ''
+            THEN CASE WHEN (pcategory1 = #{pcategory, jdbcType=VARCHAR} OR pcategory2 = #{pcategory, jdbcType=VARCHAR} OR pcategory3 = #{pcategory, jdbcType=VARCHAR}) THEN price ELSE NULL END 
+            ELSE NULL END), 0) AS avgPrice2,
+    COALESCE(MIN(CASE WHEN #{search, jdbcType=VARCHAR} IS NULL OR #{search, jdbcType=VARCHAR} = '' OR #{pcategory, jdbcType=VARCHAR} IS NOT NULL OR #{pcategory, jdbcType=VARCHAR} != ''
+            THEN CASE WHEN (pcategory1 = #{pcategory, jdbcType=VARCHAR} OR pcategory2 = #{pcategory, jdbcType=VARCHAR} OR pcategory3 = #{pcategory, jdbcType=VARCHAR}) THEN price ELSE NULL END 
+            ELSE NULL END), 0) AS minPrice2,
+    COALESCE(MAX(CASE WHEN #{search, jdbcType=VARCHAR} IS NULL OR #{search, jdbcType=VARCHAR} = '' OR #{pcategory, jdbcType=VARCHAR} IS NOT NULL OR #{pcategory, jdbcType=VARCHAR} != ''
+            THEN CASE WHEN (pcategory1 = #{pcategory, jdbcType=VARCHAR} OR pcategory2 = #{pcategory, jdbcType=VARCHAR} OR pcategory3 = #{pcategory, jdbcType=VARCHAR}) THEN price ELSE NULL END 
+            ELSE NULL END), 0) AS maxPrice2
+FROM prod
+WHERE 
+    (
+            (#{search} IS NOT NULL AND #{search} != '' OR pname LIKE '%' || #{search} || '%')
+            OR 
+            (#{search} IS NULL OR #{search} = '')
+        )
+        AND
+        (
+            (#{pcategory} IS NOT NULL AND #{pcategory} != '' OR (pcategory1 = #{pcategory} OR pcategory2 = #{pcategory} OR pcategory3 = #{pcategory}))
+            OR 
+            (#{pcategory} IS NULL OR #{pcategory} = '')
+        )
+        <if test="pnumList != null and pnumList.size() > 0">
+            AND pnum IN 
+            <foreach item="item" index="index" collection="pnumList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+</select>
+
+
+
+
+
+
+
+ 	
+ 	<!-- 상품 메인 페이지에서 옵션 값 전부 선택 후 검색-->
+ 	<!-- 상품 카테고리 설정, 가격대 설정, 판매상태 설정 전부 선택 후 검색 -->
+ 	<select id="allSearchProd" parameterType="productDTO" resultType="productDTO">
+ 	 	SELECT *
+			FROM (	<!-- 카테고리가 pcategory인 table에서 -->
+			    SELECT *
+			    FROM prod
+			    WHERE pcategory = #{pcategory}
+			) pcate
+				<!-- price가 minPrice ~ maxPrice이고 pstatus가 pstatus인 값들 추출 -->
+				WHERE price BETWEEN #{minPrice} AND #{maxPrice}
+					<!-- 판매중만 보기, 판매완료까지 보기 -->
+					<if test="pstatus == '판매중만 보기'">
+			        	AND pstatus = '판매중'
+			      	</if>
+			      	<if test="pstatus == '판매완료까지 보기'">
+			        	AND (pstatus = '판매중' OR pstatus = '판매완료')
+			      	</if>
+ 	</select>
+ 	<select id="priceProd" parameterType="int" resultType="productDTO">
+ 		SELECT * FROM prod WHERE price BETWEEN #{minPrice} AND #{maxPrice}
+ 	</select>
+ 	
+ 	<!-- 상품 상세보기(상품 클릭시), 수정하기(pnum으로 dto 가져오기 -->
+ 	<select id="getProd" parameterType="int" resultType="productDTO">
+ 		SELECT * FROM prod WHERE pnum = #{pnum}
+ 	</select>
+ 	
+ 	<!-- 랜덤으로 5개 값 가져오기-->
+ 	<select id="randomProd" resultType="productDTO"> 
+ 		SELECT p.*,CASE WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+ 		END AS HOURS_DIFFERENCE FROM prod p ORDER BY DBMS_RANDOM.VALUE
+ 	</select>
+ 	
+ 	<!-- 조회수 기반 -->
+ 	<select id="readCountProd" resultType = "productDTO">
+ 		SELECT p.*,CASE WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+ 		END AS HOURS_DIFFERENCE FROM prod p ORDER BY preadcount DESC
+ 	</select>
+ 	
+ 	<!-- 최신순 -->
+ 	<select id="dateProd" resultType="productDTO">
+ 		SELECT p.*,CASE WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+ 		END AS HOURS_DIFFERENCE FROM prod p ORDER BY create_date DESC
+ 	</select>
+
+
+ 	<!-- 아이디로 상품 가져오기 -->
+	<select id="idProd" parameterType="String" resultType="ProductDTO">
+	    SELECT p.*,
+	        CASE 
+	            WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+	                + EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 
+	                THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+	                + EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' 
+	                ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+	                + EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date)))) || '시간 전' 
+	        END AS HOURS_DIFFERENCE 
+	    FROM prod p 
+	    WHERE p.member_id = #{member_id}
+	    <if test="sort != null">
+	        ORDER BY
+	        <choose>
+	            <when test="sort == 'NEWEST_SORT'">
+	                p.create_date DESC
+	            </when>
+	            <when test="sort == 'PRICE_ASC_SORT'">
+	                p.price ASC
+	            </when>
+	            <when test="sort == 'PRICE_DESC_SORT'">
+	                p.price DESC
+	            </when>
+	            <otherwise>
+	                p.create_date DESC <!-- 기본적으로 최신 순으로 정렬 -->
+	            </otherwise>
+	        </choose>
+	    </if>
+	</select>
+
+ 	
+ 	<select id="idProd_sell" parameterType="String" resultType="ProductDTO">
+        SELECT p.*,CASE WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+ 		END AS HOURS_DIFFERENCE FROM prod p WHERE p.member_id = #{member_id} AND pstatus = '판매중'
+    </select>
+    
+    <select id="idProd_complete" parameterType="String" resultType="ProductDTO">
+        SELECT  p.*,CASE WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+ 		END AS HOURS_DIFFERENCE FROM prod p WHERE p.member_id = #{member_id} AND pstatus = '판매완료'
+    </select>
+    
+ 	
+ 	<!-- 상품등록(판매하기) -->
+ 	<insert id="insertProd" parameterType="productDTO">
+	    INSERT INTO prod (pdeliverytype, member_id, pnum, pimage, pname, price, pdescription, pcontent, preadcount, plike, pstatus, pcategory1, pcategory2, pcategory3)
+	    VALUES (
+	    	#{pdeliverytype, jdbcType=VARCHAR}, 
+	    	#{member_id,jdbcType=VARCHAR},
+	    	prod_seq.NEXTVAL, 
+	        #{pimage, jdbcType=VARCHAR}, 
+	        #{pname, jdbcType=VARCHAR}, 
+	        #{price, jdbcType=INTEGER}, 
+	        #{pdescription, jdbcType=VARCHAR}, 
+	        #{pcontent, jdbcType=VARCHAR}, 
+
+	        0, 
+	        0, 
+	        '판매중',
+	        #{pcategory1, jdbcType=VARCHAR},
+	        #{pcategory2, jdbcType=VARCHAR},
+	        #{pcategory3, jdbcType=VARCHAR})
+	        <!-- currval은 여기서 사용 -->
+	</insert>
+
+	
+ 	<select id="getLastInsertId" resultType="int">
+    	SELECT max(pnum) from prod
+	</select>
+
+ 	<!-- 조회수 증가 -->
+ 	<update id="plusPreadcount" parameterType="int">
+ 		update prod set preadcount = preadcount + 1 where pnum = #{pnum}
+ 	</update>
+ 	
+ 	<!-- 찜 증가 -->
+ 	<update id ="plusPlike" parameterType="int">
+ 		update prod set plike = plike + 1 where pnum = #{pnum}
+ 	</update>
+ 	
+ 	<!-- 상품 삭제하기 -->
+ 	<delete id="deleteProd" parameterType="int">
+ 		delete from prod where pnum = #{pnum}
+ 	</delete>
+ 	
+ 	<!--카테고리 검색으로 시세조회 -->
+	<select id="marketPriceByCategory" parameterType="String" resultType="Double">
+	   <![CDATA[
+WITH date_range AS (
+    SELECT TRUNC(SYSDATE, 'IW') - (LEVEL - 1) * 7 AS start_date,
+           TRUNC(SYSDATE, 'IW') - (LEVEL - 1) * 7 + 6 AS end_date
+    FROM dual
+    CONNECT BY LEVEL <= 5
+)
+SELECT CASE
+           WHEN p.price_count = 0 THEN 0  -- 등록된 상품이 없는 주는 0으로 처리
+           ELSE ROUND(SUM(p.price_sum) OVER (ORDER BY dr.start_date), 2)
+                / ROUND(SUM(p.price_count) OVER (ORDER BY dr.start_date), 2)
+       END AS avgPrice
+FROM date_range dr
+LEFT JOIN (
+    SELECT TRUNC(create_date, 'IW') AS week_start,
+           SUM(price) AS price_sum,
+           COUNT(price) AS price_count
+    FROM prod
+    WHERE (pcategory1 = #{category} OR #{category} IS NULL)
+      OR (pcategory2 = #{category} OR #{category} IS NULL)
+      OR (pcategory3 = #{category} OR #{category} IS NULL)
+      AND TRUNC(create_date) BETWEEN TRUNC(SYSDATE, 'IW') - 35 AND TRUNC(SYSDATE, 'IW')
+    GROUP BY TRUNC(create_date, 'IW')
+) p ON dr.start_date = p.week_start
+ORDER BY dr.start_date ASC
+
+]]>
+
+	</select>
+	
+	<!--상품이름으로 시세조회 -->
+	<select id="marketPrice" parameterType="String" resultType="Double">
+	    <![CDATA[
+    WITH date_range AS (
+        SELECT TRUNC(SYSDATE, 'IW') - (LEVEL - 1) * 7 AS start_date
+        FROM dual
+        CONNECT BY LEVEL <= 5
+    )
+    SELECT CASE
+               WHEN p.price_count = 0 THEN 0  -- 등록된 상품이 없는 주는 0으로 처리
+               ELSE ROUND(SUM(p.price_sum) OVER (ORDER BY dr.start_date), 2)
+                    / ROUND(SUM(p.price_count) OVER (ORDER BY dr.start_date), 2)
+           END AS avgPrice
+    FROM date_range dr
+    LEFT JOIN (
+        SELECT TRUNC(create_date, 'IW') AS week_start,
+               SUM(price) AS price_sum,
+               COUNT(price) AS price_count
+        FROM prod
+        WHERE pname LIKE '%' || #{product} || '%'
+          AND TRUNC(create_date) BETWEEN TRUNC(SYSDATE, 'IW') - 28 AND TRUNC(SYSDATE, 'IW')
+        GROUP BY TRUNC(create_date, 'IW')
+    ) p ON dr.start_date = p.week_start
+    ORDER BY dr.start_date ASC
+]]>
+
+	</select>
+ 	
+	<!--  상품 수정하기  -->
+	<update id="editProd" parameterType="ProductDTO"> 
+		UPDATE prod SET pimage = #{pimage, jdbcType=VARCHAR}, 
+		pname = #{pname, jdbcType=VARCHAR}, pcategory1 = #{pcategory1, jdbcType=VARCHAR}, 
+		pcategory2 = #{pcategory2, jdbcType=VARCHAR}, pcategory3 = #{pcategory3, jdbcType=VARCHAR}, 
+		price = #{price, jdbcType=DECIMAL}, pdescription = #{pdescription, jdbcType=VARCHAR}, 
+		pcontent = #{pcontent, jdbcType=VARCHAR} WHERE pnum = #{pnum, jdbcType=VARCHAR} 
+	</update>
+	 
+	 <update id="update1Pstatus"> UPDATE prod SET pstatus = '거래중' WHERE pnum IN ( SELECT S.pnum FROM storage S WHERE S.code = 'wantBuy' ) </update>
+	
+	<!--  판매완료시에 pstatus가 '판매완료'로 바뀌는  -->
+	<update id="updatePstatus"> UPDATE prod SET pstatus = '판매완료' WHERE pnum = #{pnum}</update>
+
+	<!--  안살래요, 거절하기 눌렀을 때 판매상태 되돌리기  -->
+	<update id="rePstatus" parameterType="int"> 
+		UPDATE prod SET pstatus = '판매중' WHERE pnum IN ( SELECT S.pnum FROM storage S WHERE S.code = 'wantBuy' AND S.pnum = #{pnum, jdbcType=INTEGER} ) </update>
+
+
+
+
+<select id="getProducts" parameterType="map" resultType="ProductDTO">
+		<choose>
+			<when test="search != null and search != ''">
+				SELECT
+				p.*
+				FROM
+				prod p
+				WHERE
+				p.pname LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+				<if test="showOnlyActive != null and showOnlyActive == true">
+					AND p.active = 1
+				</if>
+				<if test="status != null">
+					AND p.pstatus = #{status}
+				</if>
+				<if test="minPrice != null">
+					AND p.price <![CDATA[>=]]> #{minPrice}
+				</if>
+				<if test="maxPrice != null">
+					AND p.price <![CDATA[<=]]> #{maxPrice}
+				</if>
+				<choose>
+					<when test="sortOrder != null and sortOrder == 'RECOMMENDED_SORT'">
+						ORDER BY plike DESC
+					</when>
+					<when test="sortOrder != null and sortOrder == 'NEWEST_SORT'">
+						ORDER BY create_date DESC
+					</when>
+					<when test="sortOrder != null and sortOrder == 'PRICE_ASC_SORT'">
+						ORDER BY price ASC
+					</when>
+					<when test="sortOrder != null and sortOrder == 'PRICE_DESC_SORT'">
+						ORDER BY price DESC
+					</when>
+					<otherwise>
+						ORDER BY create_date DESC
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				WITH RecursiveCategory (id, name, parent_id, category_level) AS (
+				-- 시작 카테고리를 찾음
+				SELECT
+				c.id,
+				c.name,
+				c.parent_id,
+				c.category_level
+				FROM
+				cate c
+				WHERE
+				c.id = #{categoryId, jdbcType=INTEGER}
+
+				UNION ALL
+
+				-- 재귀적으로 하위 카테고리를 찾음
+				SELECT
+				c2.id,
+				c2.name,
+				c2.parent_id,
+				c2.category_level
+				FROM
+				cate c2
+				INNER JOIN RecursiveCategory rc ON c2.parent_id = rc.id
+				),
+				FilteredCategories AS (
+				SELECT id, name, parent_id, category_level
+				FROM RecursiveCategory
+				WHERE category_level > 2
+				OR id IN (
+				SELECT id
+				FROM cate
+				WHERE parent_id IN (
+				SELECT id
+				FROM cate
+				WHERE id = #{categoryId}
+				AND category_level IN (1, 2)
+				)
+				)
+				)
+				SELECT
+				fc.id AS category_id,
+				fc.name AS category_name,
+				fc.parent_id,
+				fc.category_level,
+				p.*
+				FROM
+				FilteredCategories fc
+				LEFT JOIN prod p ON fc.id = p.category_id
+				WHERE 1=1
+				<if test="showOnlyActive != null and showOnlyActive == true">
+					AND p.active = 1
+				</if>
+				<if test="status != null">
+					AND p.pstatus = #{status}
+				</if>
+				<if test="minPrice != null">
+					AND p.price <![CDATA[>=]]> #{minPrice}
+				</if>
+				<if test="maxPrice != null">
+					AND p.price <![CDATA[<=]]> #{maxPrice}
+				</if>
+				<choose>
+					<when test="sortOrder != null and sortOrder == 'RECOMMENDED_SORT'">
+						ORDER BY plike DESC
+					</when>
+					<when test="sortOrder != null and sortOrder == 'NEWEST_SORT'">
+						ORDER BY create_date DESC
+					</when>
+					<when test="sortOrder != null and sortOrder == 'PRICE_ASC_SORT'">
+						ORDER BY price ASC
+					</when>
+					<when test="sortOrder != null and sortOrder == 'PRICE_DESC_SORT'">
+						ORDER BY price DESC
+					</when>
+					<otherwise>
+						ORDER BY create_date DESC
+					</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 회원 삭제시 찜 삭제를 위해 가져올 값  -->
+	<select id="getProdPnum" parameterType="String" resultType="Integer"> 
+		select pnum from prod where member_id =#{id} 
+	</select>
+	
+	<!-- 회원 삭제시 상품삭제  -->
+	<delete id="deleteMember_pro" parameterType="String"> 
+		delete from prod where member_id = #{id} 
+	</delete>
+
+
+    <select id="idProd_reserve" parameterType="String" resultType="ProductDTO">
+    	SELECT  p.*,CASE WHEN FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) >= 24 THEN TO_CHAR(FLOOR((EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) / 24)) || '일 전' ELSE TO_CHAR(FLOOR(EXTRACT(DAY FROM (SYSTIMESTAMP - p.create_date)) * 24 
+ 		+ EXTRACT(HOUR FROM (SYSTIMESTAMP - p.create_date))) || '시간 전') 
+ 		END AS HOURS_DIFFERENCE FROM prod p WHERE p.member_id = #{member_id} AND pstatus = '거래중'
+    </select>
+    
+    <select id="getProdByRoomId" parameterType="String" resultType="ProductDTO"> 
+    	SELECT * FROM prod WHERE roomId = #{roomId} 
+    </select>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.chat-top-1, .chat-top-2 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.sec1 {
+    flex: 2;
+}
+
+.sec2 {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sec2 a {
+    text-decoration: none;
+    color: black;
+    margin-bottom: 5px;
+}
+
+.product-detail {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.price, .pname {
+    display: block;
+    margin-left: 0;
+}
+
+.price {
+    font-weight: bold;
+    color: green;
+}
+
+.pname {
+    color: #555;
+}

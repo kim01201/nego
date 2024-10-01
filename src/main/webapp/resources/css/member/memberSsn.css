@@ -1,0 +1,87 @@
+        .container1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .line {
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid black;
+            margin: auto;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #007bff;
+        }
+        
+        .form-table {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            text-align: left;
+        }
+        
+        .form-table th, .form-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .form-table th {
+            width: 40%;
+            font-weight: bold;
+            white-space: nowrap; /* 줄 바꿈 방지 */
+        }
+        
+        .box-container {
+            display: flex;
+            align-items: center;
+        }
+        .box1 {
+            width: calc(50% - 5px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+        
+        .box {
+            width: calc(50% - 5px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+        
+        .box:first-child {
+            margin-right: 10px;
+        }
+        .box:last-child{
+        	margin-left:10px;
+        }
+        
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .button:hover {
+            background-color: #0056b3;
+        }
+        
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }

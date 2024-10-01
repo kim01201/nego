@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.itbank.mavenNego.dto.gboardMapper">
+ 
+ 	<select id="gboardList" resultType="gboardDTO">
+		select * from gboard order by num desc
+	</select>
+	
+	<insert id="insertGboard" parameterType="gboardDTO">
+		insert into gboard values(gboard_seq.nextval, #{writer},#{email},#{subject}, sysdate, #{content})
+	</insert>
+	
+	<select id="getGboard" parameterType="int" resultType="gboardDTO">
+		select * from gboard where num = #{num}
+	</select>
+ 	
+ 	<delete id="deleteGboard" parameterType="int">
+		delete from gboard where num = #{num}
+	</delete>
+	
+	<update id="updateGboard" parameterType="gboardDTO">
+		update gboard set subject=#{subject}, email=#{email}, 
+								content=#{content} where num=#{num}
+	</update>
+ 
+ 	<select id="searchGboardList" parameterType="map" resultType="gboardDTO">
+    select * 
+    from gboard
+ 	where (subject LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR #{search, jdbcType=VARCHAR} IS NULL) 
+	</select>
+ 
+ 
+ </mapper>
+ 
+ 

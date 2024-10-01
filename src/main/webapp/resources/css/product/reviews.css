@@ -1,0 +1,144 @@
+
+.popup-content {
+	max-height: 100vh; /* 최대 높이를 설정 */
+	overflow-y: auto; /* 수직 스크롤 활성화 */
+}
+
+    .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .notice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .notice-table td {
+            padding: 10px;
+            border: none;
+            text-align: left;
+        }
+
+        .no-review {
+            text-align: center;
+            font-style: italic;
+        }
+
+        h5 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .review-item {
+            padding: 5px 0;
+        }
+
+        .review-item-row {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-content {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .review-header div {
+            font-weight: bold;
+        }
+
+        .review-body {
+            padding-left: 10px;
+        }
+
+        .review-body a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .review-body a:hover {
+            text-decoration: underline;
+        }
+        
+        .review-item-row {
+            border-bottom: none;
+        }
+
+.pagination {
+
+    margin-top: 20px;
+    
+    justify-content: center
+}
+.pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.pagination a.active {
+    background-color: #2196F3;
+    color: white;
+}
+.pagination a:hover:not(.active) {
+    background-color: #1e88e5;
+}
+.reply-level {
+    display: flex;
+    align-items: center;
+}
+.reply-level .indent {
+    width: 20px;
+    height: 100%;
+    border-right: 2px solid #2196F3;
+    margin-left: 10px;
+}
+.reply-level .arrow {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 10px solid #2196F3;
+    margin-left: 10px;
+}
+.reply-level .arrow-left {
+    border-right: 10px solid transparent;
+    border-left: 10px solid #2196F3;
+    margin-left: 10px;
+}
+        

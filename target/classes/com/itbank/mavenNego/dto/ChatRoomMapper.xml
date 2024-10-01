@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itbank.mavenNego.dto.ChatRoomMapper">
+  <insert id="insertChatRoom" parameterType="ChatRoomDTO">
+    INSERT INTO ChatRoom (room_Id, create_date, pnum)
+    VALUES (#{room_Id},SYSDATE, #{pnum})
+  </insert>
+
+  <select id="getChatRooms" resultType="com.itbank.mavenNego.dto.ChatRoomDTO">
+    SELECT * FROM ChatRoom
+  </select>
+
+  <select id="getChatRoomById" parameterType="String" resultType="com.itbank.mavenNego.dto.ChatRoomDTO">
+    SELECT * FROM ChatRoom WHERE room_Id = #{room_Id}
+  </select>
+
+  <update id="updateChatRoomPnum" parameterType="ChatRoomDTO">
+    UPDATE ChatRoom 
+    SET pnum = #{pnum}
+    WHERE room_Id = #{room_Id}
+  </update>
+  
+  
+</mapper>
+
+

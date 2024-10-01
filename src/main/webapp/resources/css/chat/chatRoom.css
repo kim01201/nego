@@ -1,0 +1,51 @@
+
+        .chat-room-list-popup {
+            width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-room-list-popup h2 {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chat-room-list-popup ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-room-list-popup li {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-room-list-popup li:hover {
+            background-color: #f1f1f1;
+        }
+
+        .chat-room-list-popup li .seller-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chat-room-list-popup li .last-message {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .chat-room-list-popup li .timestamp {
+            font-size: 0.8em;
+            color: #999;
+            text-align: right;
+        }

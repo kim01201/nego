@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+ <mapper namespace ="com.itbank.mavenNego.dto.reviewsMapper">
+ 
+
+<insert id="insertReviews" parameterType="ReviewsDTO">
+    INSERT INTO Reviews (sender_id, receiver_id, content, reg_date, product_name, product_id, goodPoints, badPoints)
+    VALUES (#{sender_id, jdbcType=VARCHAR}, 
+            #{receiver_id, jdbcType=VARCHAR}, 
+            #{content, jdbcType=VARCHAR}, 
+            sysdate, 
+            #{product_name, jdbcType=VARCHAR}, 
+            #{product_id, jdbcType=VARCHAR},
+            #{goodPoints, jdbcType=VARCHAR}, 
+            #{badPoints, jdbcType=VARCHAR})
+</insert>
+	<!--후기 수정  -->
+<update id="editReviews" parameterType="ReviewsDTO">
+    UPDATE reviews 
+    SET content = #{content}, goodPoints = #{goodPoints, jdbcType=VARCHAR}, badPoints = #{badPoints, jdbcType=VARCHAR}
+    WHERE product_id = #{product_id} AND sender_id = #{sender_id}
+</update>
+   
+   <!--상품에 후기를 작성했는지 확인  -->
+ 	<select id="findReviews" parameterType="map" resultType="ReviewsDTO">
+        SELECT * FROM reviews 
+        WHERE product_id = #{product_id} 
+        AND sender_id = #{sender_id}
+        AND ROWNUM = 1
+    </select>
+ 
+    <!-- 판매자 후기 갯수 -->
+    <select id="reviewsCount" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM Reviews WHERE receiver_id = #{receiver_id}
+    </select>
+
+    <!-- 내가 작성한 후기 보기 -->
+    <select id="myReviews" parameterType="string" resultType="ReviewsDTO">
+        SELECT * FROM Reviews WHERE sender_id = #{sender_id}
+    </select>
+
+    <!-- 판매자에 대한 후기 보기 -->
+    <select id="sellReviews" parameterType="string" resultType="ReviewsDTO">
+        SELECT * FROM Reviews WHERE receiver_id = #{receiver_id}
+    </select>
+    
+    <!--후기 삭제  -->
+    <delete id = "deleteReviews" parameterType ="map">
+   	 delete  FROM reviews 
+        WHERE product_id = #{product_id} 
+        AND sender_id = #{sender_id}
+    </delete>
+    
+    <!--  회원 탈퇴시 작성자 아이디 바꾸기  -->
+	<update id="reReviews_id" parameterType="String"> 
+		update Reviews set sender_id = '탈퇴한 회원' where sender_id = #{id} 
+	</update>
+    
+ </mapper>

@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+.container1 {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #cdd9e5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #cdd9e5;
+    text-align: left;
+}
+
+th {
+    background-color: #2196F3;
+    color: #ffffff;
+}
+
+input[type="text"], textarea {
+    width: calc(100% - 24px);
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #cdd9e5;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-group {
+    text-align: center;
+}
+
+.btn-group input[type="submit"], 
+.btn-group input[type="reset"],
+.btn-group input[type="button"] {
+    padding: 12px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #2196F3;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-group input[type="submit"]:hover,
+.btn-group input[type="reset"]:hover,
+.btn-group input[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+/* Additional styling */
+.center-align {
+    text-align: center;
+}
+
+.form-title {
+    font-size: 24px;
+    color: #2196F3;
+    margin-bottom: 20px;
+}
+
+.box {
+    width: calc(100% - 24px);
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #cdd9e5;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+textarea.box {
+    height: 200px;
+    resize: vertical;
+}

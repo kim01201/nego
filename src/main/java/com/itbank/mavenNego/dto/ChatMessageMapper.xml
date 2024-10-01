@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itbank.mavenNego.dto.ChatMessageMapper">
+
+<insert id="insertChatMessage" parameterType="ChatMessageDTO"> INSERT INTO chatmessage (sender_Id, content, room_Id, message_Id, send_Date,pnum,Receiver_Id) VALUES (#{sender_Id}, #{content}, #{room_Id}, #{message_Id}, SYSDATE,#{pnum}, #{receiver_Id, jdbcType=VARCHAR}) </insert>
+<select id="getMessagesByRoomId" parameterType="String" resultType="com.itbank.mavenNego.dto.ChatMessageDTO"> SELECT * FROM chatmessage WHERE room_id = #{roomId} ORDER BY send_date ASC</select>
+
+  <select id="getPnumByRoomId" parameterType="String" resultType="java.lang.Integer">
+    SELECT pnum FROM chatmessage WHERE room_Id = #{roomId} AND ROWNUM = 1
+  </select>
+
+  <select id="getReceiverIdByPnum" parameterType="int" resultType="java.lang.String">
+    SELECT receiver_Id FROM chatmessage WHERE pnum = #{pnum} AND ROWNUM = 1
+  </select>
+  
+<select id="getByPnum" parameterType="int" resultType="com.itbank.mavenNego.dto.ChatMessageDTO">
+    SELECT sender_Id, receiver_Id, message_Id, room_Id, pnum, content, send_date 
+    FROM chatmessage 
+    WHERE pnum = #{pnum}
+</select>
+</mapper>
+
